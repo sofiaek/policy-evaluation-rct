@@ -2,9 +2,7 @@ import argparse
 import os
 import datetime
 import json
-import subprocess
 import logging
-import sys
 
 
 def generate_folder_path(base_folder, exp_folder_name):
@@ -23,32 +21,9 @@ def get_full_path(folder, name):
     return os.path.join(folder, name)
 
 
-def get_git_diff() -> str:
-    diff = (
-        subprocess.check_output(["git", "diff", "HEAD"])
-        .decode(sys.stdout.encoding)
-        .strip()
-    )
-    if diff:
-        message = "It is uncommited changes in the code."
-        logging.warning(message)
-        print("WARNING: " + message)
-    return diff
-
-
 def save_hyperparams(folder, args):
     with open(get_full_path(folder, "config.json"), "w") as handle:
         json.dump(vars(args), handle, indent="\t")
-
-
-def get_git_revision_hash() -> str:
-    return subprocess.check_output(["git", "rev-parse", "HEAD"]).decode("ascii").strip()
-
-
-def save_git_hash(folder):
-    with open(get_full_path(folder, "git.txt"), "w", encoding="utf-8") as handle:
-        handle.write(get_git_revision_hash() + "\n")
-        handle.write(get_git_diff())
 
 
 def save_logging(folder, args):
@@ -73,7 +48,6 @@ def save_logging_and_setup(args):
     # save experiment details
     save_logging(out_dir, args)
     save_hyperparams(out_dir, args)
-    save_git_hash(out_dir)
 
     return out_dir
 
