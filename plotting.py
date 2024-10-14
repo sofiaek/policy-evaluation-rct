@@ -147,7 +147,7 @@ def save_calibration_curves(
 
     df = pd.concat([df_rct, df_test])
     s = df[s_name]
-    x = df[x_name]
+    x = df[x_name].to_numpy()
 
     odds_true_list = []
     odds_nominal_list = []
