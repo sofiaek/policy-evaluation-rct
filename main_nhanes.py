@@ -23,6 +23,15 @@ from learn_weights_logistic import LearnWeightsLogisticRct
 from learn_weights_xgboost import LearnWeightsXgboostRct
 from robust_policy import RobustPolicyCurve
 
+from matplotlib import pyplot as plt
+
+plt.rcParams.update({
+    "text.usetex": True,
+    "font.family": "serif",
+    "font.serif": ["Computer Modern"],
+    "lines.linewidth": 2
+})
+
 
 #  python main_nhanes.py --weight_models xgboost --gamma_list 1 1.5 2 --y_max 20 --decision 0 1 --name nhanes
 

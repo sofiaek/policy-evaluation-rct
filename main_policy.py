@@ -17,6 +17,15 @@ from robust_policy import RobustPolicyCurve
 from learn_weights_logistic import LearnWeightsLogisticRct
 from learn_weights_xgboost import LearnWeightsXgboostRct
 
+from matplotlib import pyplot as plt
+
+plt.rcParams.update({
+    "text.usetex": True,
+    "font.family": "serif",
+    "font.serif": ["Computer Modern"],
+    "lines.linewidth": 2
+})
+
 
 def test_loss(loss_list, loss_test):
     n = np.zeros(len(loss_list))
