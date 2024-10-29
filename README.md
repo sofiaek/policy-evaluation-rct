@@ -1,4 +1,4 @@
-# Off-Policy Evaluation with Out-of-Sample Guarantees
+# Externally Valid Policy Evaluation from Randomized Trials Using Additional Observational Data
 This repository contains code to replicate the experimental results in:
 
 Sofia Ek, Dave Zachariah. "Externally Valid Policy Evaluation from Randomized Trials Using Additional Observational Data". 2024.
