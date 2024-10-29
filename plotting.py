@@ -8,7 +8,16 @@ import seaborn as sns
 import numpy as np
 import matplotlib.ticker as mtick
 
-sns.set(font_scale=1.5, rc={"text.usetex": True})
+from matplotlib import pyplot as plt
+
+plt.rcParams.update({
+    "text.usetex": True,
+    "font.family": "serif",
+    "font.serif": ["Computer Modern"],
+    "lines.linewidth": 2
+})
+
+sns.set(font_scale=1.5)
 sns.set_style("white")
 plt.rcParams["axes.grid"] = True
 levels = 50
@@ -59,12 +68,10 @@ def plot_odds_dist(
     def get_odds_sampling_x(x, weighter, gamma):
         weight = weighter.get_weight_sampling(x.to_numpy())
         odds = get_weight_sampling_true(x.to_numpy()) / weight
-        odds_wrong = np.where(np.logical_and(odds > 1 / gamma, odds < gamma), 0, size)
-        odds_ok = np.where(odds_wrong == 0, size, 0)
         return (
             x[np.logical_and(odds > 1 / gamma, odds < gamma)],
             x[np.logical_or(odds <= 1 / gamma, odds >= gamma)],
-        )  # odds_wrong, odds_ok
+        )
 
     if "True" in name_list:
         idx = name_list.index("True")
@@ -221,9 +228,9 @@ def plot_weight_curves(
     gamma_c_list = ["black", "dimgrey", "darkgrey"]
     gamma_ls = [":", ":", ":"]
     for i, gamma in enumerate(gamma_list):
-        plt.plot([gamma, gamma], [0, 1], gamma_c_list[i], ls=gamma_ls[i])
+        plt.axvline(x=gamma, color=gamma_c_list[i], linestyle=gamma_ls[i], linewidth=1.5, zorder=1)
     for i, gamma in enumerate(gamma_list):
-        plt.plot([1 / gamma, 1 / gamma], [0, 1], gamma_c_list[i], ls=gamma_ls[i])
+        plt.axvline(x=1 / gamma, color=gamma_c_list[i], linestyle=gamma_ls[i], linewidth=1.5, zorder=1)
 
     # Modifiy lables
     label = name_list.copy()
@@ -286,7 +293,7 @@ def plot_calibration_curves(
         plt.plot([0, max_plot], [0, gamma * max_plot], gamma_c_list[i], ls="dotted")
     label = name_list.copy()
     label += [r"$\Gamma = 1$", r"$\Gamma = 1.5$", r"$\Gamma = 2$"]
-    plt.ylim([0, 4.2])
+    plt.ylim([0, 4])
     plt.xlim([0, 4])
     plt.legend(label, fontsize=14)
     plt.xlabel("Nominal odds")
@@ -636,9 +643,6 @@ def plot_loss_and_coverage_first(load_dir, out_dir, save_fig=True):
         plt.savefig(os.path.join(out_dir, "loss_first.png"), bbox_inches="tight")
 
     # Plot coverage curves
-    alpha_est_tot = np.load(os.path.join(load_dir, "coverage_rct_no_shift.npy"))
-    quant_arr = np.load(os.path.join(load_dir, "quant_arr.npy"))
-
     fig, axes = plt.subplots(1, 1, figsize=(7, 5), squeeze=False)
     axes = axes[0]
     plot_coverage(axes[0], plot_settings, load_dir, args, plot_rct=True)

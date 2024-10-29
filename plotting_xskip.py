@@ -3,6 +3,15 @@ import os
 import numpy as np
 import plotting
 
+from matplotlib import pyplot as plt
+
+plt.rcParams.update({
+    "text.usetex": True,
+    "font.family": "serif",
+    "font.serif": ["Computer Modern"],
+    "lines.linewidth": 2
+})
+
 
 def loss_and_coverage(load_dir, save_dir):
     plotting.plot_loss_and_coverage_paper(load_dir, save_dir)
@@ -34,10 +43,6 @@ def weights(load_dir_missing_list, load_dir_all, save_dir, ignore_logistic=False
 
             prob_missing_list.extend(prob_missing[i - 1, :].reshape(1, -1))
             prob_list.extend(prob[i - 1, :].reshape(1, -1))
-
-        # name_list.append(args['skip_x'])
-    # name_list = [r'$' + label_i + '$' for label_i in name_list]
-    # name_list = ['logistic', 'xgboost']
 
     plotting.plot_weight_curves(save_dir, prob_missing_list, prob_list, name_list, args['name'])
 

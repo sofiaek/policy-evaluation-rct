@@ -3,6 +3,15 @@ import os
 import numpy as np
 import plotting
 
+from matplotlib import pyplot as plt
+
+plt.rcParams.update({
+    "text.usetex": True,
+    "font.family": "serif",
+    "font.serif": ["Computer Modern"],
+    "lines.linewidth": 2
+})
+
 
 def first_figure(load_dir, save_dir):
     plotting.plot_loss_and_coverage_first(load_dir, save_dir)
